@@ -1,4 +1,4 @@
-angular-nestable 0.0.1 [![Bower version](https://badge.fury.io/bo/ng-nestable.svg)](http://badge.fury.io/bo/ng-nestable)
+angular-nestable 0.0.2 [![Bower version](https://badge.fury.io/bo/ng-nestable.svg)](http://badge.fury.io/bo/ng-nestable)
 =================
 
 ###DEMO:
@@ -23,11 +23,9 @@ Note that this module requires jQuery and jQuery nestable plugin.
 
 ```html
 <div ng-nestable ng-model="items">
-	<div>
-		<!-- this element is the template for each menu item -->
-		<!-- the $item is available on scope and is the reference to the menu item object -->
-		{{$item}}
-	</div>
+	<!-- this content is the template for each menu item -->
+	<!-- the $item is available on scope and is the reference to the menu item object -->
+	{{$item}}
 </div>
 ```
 
