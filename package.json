@@ -8,9 +8,9 @@
     "email": "kamilkp@gmail.com",
     "url": "http://github.com/kamilkp"
   },
-  "repository": {
+ "repository": {
     "type": "git",
-    "url": "https://github.com/kamilkp/ng-nestable.git"
+    "url": "https://github.com/serge-ivanov-nk/ng-nestable.git"
   },
   "devDependencies": {
   },
