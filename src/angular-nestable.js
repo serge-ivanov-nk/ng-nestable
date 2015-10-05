@@ -139,7 +139,14 @@
 			this.defaultOptions = function(value){
 				defaultOptions = value;
 			};
-		})
+
+
+		    /**
+			 * Flag to turn on/off draggable handle
+			 * @param  {[string]} value
+			 */
+	        this.enableDraggableHandle = false;
+	    })
 		.directive('ngNestable', ['$compile', '$nestable', function($compile, $nestable){
 			return {
 				restrict: 'A',
@@ -156,7 +163,7 @@
 						$scope.$watchCollection(function(){
 							return $ngModel.$modelValue;
 						}, function(model){
-							if(model && element.is(':empty')){
+							if(model){
 
 								/**
 								 * we are running the formatters here instead of watching on $viewValue because our model is an Array
@@ -164,6 +171,7 @@
 								 * get executed
 								 */
 								model = runFormatters(model, $ngModel);
+								// TODO: optimize as rebuilding is not necessary here
 								var root = buildNestableHtml(model, itemTemplate);
 								$element.empty().append(root);
 								$compile(root)($scope);
@@ -182,20 +190,29 @@
 				controller: angular.noop
 			};
 
-			function buildNestableHtml(model, tpl){
+			function buildNestableHtml(model, tpl) {
 				var root = $('<div class="dd"></div>');
 				var rootList = $('<ol class="dd-list"></ol>').appendTo(root);
+				var draggableHandle = $nestable.enableDraggableHandle;
 				model.forEach(function f(item){
 					var list = Array.prototype.slice.call(arguments).slice(-1)[0];
 					if(!(list instanceof $)) list = rootList;
 
-                    var listItem = $('<li class="dd-item" ng-nestable-item></li>');
-                    if($('<div>' + tpl + '</div>').find('.dd-handle').length === 0){
-                        listItem.append('<div class="dd-handle">' + tpl + '</div>');
-                    } else {
-                        listItem.append(tpl);
-                    }
-                    
+					var listItem, listElement;
+					var content = $('<div ng-nestable-item class="dd3-content"></div>');
+
+				    if (draggableHandle) {
+				        listItem = $('<li class="dd-item dd3-item"></li>');
+				        listElement = $('<div class="dd-handle dd3-handle">&nbsp;</div>');
+				        listElement.appendTo(listItem);
+				        content.append(tpl).appendTo(listItem);
+
+				    } else {
+				        listItem = $('<li class="dd-item"></li>');
+				        listElement = $('<div ng-nestable-item class="dd-handle"></div>');
+				        listElement.append(tpl).appendTo(listItem);
+				    }
+
 					list.append(listItem);
 					var itemData = $nestable.itemProperty ? item[$nestable.itemProperty] : item;
 					listItem.data('item', itemData);
