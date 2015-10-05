@@ -11,6 +11,10 @@
     "sortable",
     "nestable"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/serge-ivanov-nk/ng-nestable.git"
+  },
   "license": "MIT",
   "ignore": [
     "**/.*",
