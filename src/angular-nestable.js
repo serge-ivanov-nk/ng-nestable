@@ -201,6 +201,7 @@
 					var listItem, listElement;
 					var content = $('<div ng-nestable-item class="dd3-content"></div>');
 
+				    draggableHandle = true;
 				    if (draggableHandle) {
 				        listItem = $('<li class="dd-item dd3-item"></li>');
 				        listElement = $('<div class="dd-handle dd3-handle">&nbsp;</div>');
