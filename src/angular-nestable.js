@@ -160,7 +160,7 @@
 							$nestable.defaultOptions,
 							$scope.$eval($attrs.ngNestable)
 						);
-						$scope.$watchCollection(function(){
+						$scope.$watch(function(){
 							return $ngModel.$modelValue;
 						}, function(model){
 							if(model){
@@ -184,7 +184,7 @@
 									$scope && $scope.$root && $scope.$root.$$phase || $scope.$apply();
 								});
 							}
-						});
+						}, true);
 					};
 				},
 				controller: angular.noop
@@ -217,11 +217,17 @@
 					list.append(listItem);
 					var itemData = $nestable.itemProperty ? item[$nestable.itemProperty] : item;
 					listItem.data('item', itemData);
+					if (!!arguments[3])
+						listItem.data('parent', arguments[3]);
+					var parent = item;
 					var children = item[$nestable.childrenProperty];
 					if(isArray(children) && children.length > 0){
 						var subRoot = $('<ol class="dd-list"></ol>').appendTo(listItem);
 						children.forEach(function(item){
-							f.apply(this, Array.prototype.slice.call(arguments).concat([subRoot]));
+							var args = Array.prototype.slice.call(arguments);
+							args.push(parent);
+                            f.apply(this, args.concat([subRoot]));
+							//f.apply(this, Array.prototype.slice.call(arguments).concat([subRoot]));
 						});
 					}
 				});
@@ -251,6 +257,7 @@
 			require: '^ngNestable',
 			link: function($scope, $element){
 				$scope[$nestable.modelName] = $element.parent().data('item');
+				$scope.parent = $element.parent().data('parent');
 			}
 		};
 	}]);
